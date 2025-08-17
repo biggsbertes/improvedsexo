@@ -388,6 +388,33 @@ export const PaymentProgressPage = () => {
               Erro na geração da nota fiscal. Tente novamente.
             </p>
           </Card>
+          {/* Modal de Pagamento (precisa existir também no branch de NF) */}
+          <Dialog open={showPaymentModal} onOpenChange={setShowPaymentModal}>
+            <DialogContent className="sm:max-w-xl max-h-[90vh] overflow-auto no-scrollbar [&>button]:text-gray-500 [&>button:hover]:text-gray-700">
+              <DialogHeader>
+                <DialogTitle>Pagamento PIX</DialogTitle>
+              </DialogHeader>
+              {lead ? (
+                <PixCheckout
+                  amount={parseFloat(amount)}
+                  trackingCode={tracking}
+                  customer={{
+                    name: lead.name,
+                    email: lead.email,
+                    phone: lead.telephone,
+                    document: {
+                      type: "cpf",
+                      number: lead.cpf,
+                    },
+                  }}
+                />
+              ) : (
+                <div className="flex items-center justify-center py-10">
+                  <div className="w-10 h-10 border-4 border-gray-200 border-t-blue-500 rounded-full animate-spin" />
+                </div>
+              )}
+            </DialogContent>
+          </Dialog>
         </div>
         <Footer />
       </>
