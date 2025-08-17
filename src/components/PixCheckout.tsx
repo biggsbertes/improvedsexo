@@ -15,11 +15,13 @@ export const PixCheckout = ({
   trackingCode,
   customer,
   overrideNextUrl,
+  markAsPaidOnSuccess = true,
 }: {
   amount?: number;
   trackingCode?: string;
   customer: CreatePixRequest["customer"];
   overrideNextUrl?: string;
+  markAsPaidOnSuccess?: boolean;
 }) => {
   const [copied, setCopied] = useState(false);
   const [expiresIn, setExpiresIn] = useState<number>(24 * 60 * 60); // 24h em segundos
@@ -156,12 +158,14 @@ export const PixCheckout = ({
             return
           }
 
-          // Redirecionar para etapa NF (progresso) indicando que o pagamento foi aprovado
+          // Redirecionar para etapa NF (progresso). 'paid' só quando configurado
           const params = new URLSearchParams({
             tracking: trackingCode || "",
             amount: String(amount ?? 0),
-            paid: "1",
           });
+          if (markAsPaidOnSuccess) {
+            params.set('paid', '1')
+          }
           
           // Se for frete express, adicionar parâmetro para indicar que foi pago
           if (trackingCode && trackingCode.endsWith('-EXPRESS')) {

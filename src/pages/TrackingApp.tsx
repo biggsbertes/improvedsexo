@@ -526,6 +526,7 @@ export const TrackingApp = ({ initialTrackingCode }: TrackingAppProps) => {
                   number: lead.cpf,
                 },
               }}
+              markAsPaidOnSuccess={false}
             />
           )}
         </DialogContent>
