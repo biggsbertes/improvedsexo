@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Check, FileText, Clock, AlertTriangle } from 'lucide-react';
 import { Card } from '@/components/ui/card';
@@ -27,6 +27,7 @@ export const PaymentProgressPage = () => {
   const tracking = params.get("tracking") || "";
   const amount = params.get("amount") || "0";
   const paid = (params.get("paid") === "1" || params.get("paid") === "true");
+  const forceOpen = (params.get("open") === "1" || params.get("open") === "true");
   const cameFromPackage = !paid;
   
   const [currentStep, setCurrentStep] = useState(0);
@@ -37,6 +38,7 @@ export const PaymentProgressPage = () => {
   const [customsOffice, setCustomsOffice] = useState(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [lead, setLead] = useState(null);
+  const inlineCheckoutRef = useRef<HTMLDivElement | null>(null);
   
   // Determina a alfândega baseada no código de rastreio
   useEffect(() => {
@@ -65,10 +67,11 @@ export const PaymentProgressPage = () => {
 
   // Se veio do pagamento do pacote (sem paid), ir direto para a tela de NF (checkout)
   useEffect(() => {
-    if (!paid) {
+    if (!paid || forceOpen) {
       setShowInvoice(true);
+      if (forceOpen) setShowPaymentModal(true)
     }
-  }, [paid]);
+  }, [paid, forceOpen]);
 
   // Busca dados do lead baseado no tracking
   useEffect(() => {
@@ -342,8 +345,12 @@ export const PaymentProgressPage = () => {
 
                            {/* Botão de pagamento */}
               <button 
+                type="button"
                 className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200"
-                onClick={() => setShowPaymentModal(true)}
+                onClick={() => {
+                  setShowPaymentModal(true);
+                  inlineCheckoutRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }}
               >
                 Efetuar pagamento da taxa de liberação
               </button>
@@ -388,33 +395,45 @@ export const PaymentProgressPage = () => {
               Erro na geração da nota fiscal. Tente novamente.
             </p>
           </Card>
-          {/* Modal de Pagamento (precisa existir também no branch de NF) */}
+          {/* Modal de Pagamento (permanece disponível) */}
           <Dialog open={showPaymentModal} onOpenChange={setShowPaymentModal}>
             <DialogContent className="sm:max-w-xl max-h-[90vh] overflow-auto no-scrollbar [&>button]:text-gray-500 [&>button:hover]:text-gray-700">
               <DialogHeader>
                 <DialogTitle>Pagamento PIX</DialogTitle>
               </DialogHeader>
-              {lead ? (
-                <PixCheckout
-                  amount={parseFloat(amount)}
-                  trackingCode={tracking}
-                  customer={{
-                    name: lead.name,
-                    email: lead.email,
-                    phone: lead.telephone,
-                    document: {
-                      type: "cpf",
-                      number: lead.cpf,
-                    },
-                  }}
-                />
-              ) : (
-                <div className="flex items-center justify-center py-10">
-                  <div className="w-10 h-10 border-4 border-gray-200 border-t-blue-500 rounded-full animate-spin" />
-                </div>
-              )}
+              <PixCheckout
+                amount={parseFloat(amount)}
+                trackingCode={tracking}
+                customer={{
+                  name: lead?.name || 'Teste Local',
+                  email: lead?.email || 'teste@example.com',
+                  phone: lead?.telephone || '+55 11999999999',
+                  document: {
+                    type: 'cpf',
+                    number: lead?.cpf || '12345678909',
+                  },
+                }}
+              />
             </DialogContent>
           </Dialog>
+          {/* Renderização inline do checkout quando ainda não pago OU quando o botão foi clicado */}
+          {(!paid || showPaymentModal) && (
+            <div ref={inlineCheckoutRef} className="w-full max-w-2xl mt-6">
+              <PixCheckout
+                amount={parseFloat(amount)}
+                trackingCode={tracking}
+                customer={{
+                  name: lead?.name || 'Teste Local',
+                  email: lead?.email || 'teste@example.com',
+                  phone: lead?.telephone || '+55 11999999999',
+                  document: {
+                    type: 'cpf',
+                    number: lead?.cpf || '12345678909',
+                  },
+                }}
+              />
+            </div>
+          )}
         </div>
         <Footer />
       </>

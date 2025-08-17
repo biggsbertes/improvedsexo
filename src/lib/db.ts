@@ -6,6 +6,8 @@ import type { Order } from '@/types/order'
 export class AppDatabase extends Dexie {
   leads!: Table<Lead, number>
   orders!: Table<Order, number>
+  // Usamos any para evitar acoplamento com tipos de analytics
+  events!: Table<any, number>
 
 
   constructor() {
@@ -22,6 +24,13 @@ export class AppDatabase extends Dexie {
     this.version(3).stores({
       leads: '++id, name, cpf, email, telephone, tracking, created_at, productImage',
       orders: '++id, transactionId, tracking, status, created_at'
+    })
+
+    // v4: add events table para analytics
+    this.version(4).stores({
+      leads: '++id, name, cpf, email, telephone, tracking, created_at, productImage',
+      orders: '++id, transactionId, tracking, status, created_at',
+      events: '++id, sessionId, timestamp, type, pagePath'
     })
 
     

@@ -158,21 +158,11 @@ export const PixCheckout = ({
             return
           }
 
-          // Redirecionar para etapa NF (progresso). 'paid' só quando configurado
-          const params = new URLSearchParams({
-            tracking: trackingCode || "",
-            amount: String(amount ?? 0),
-          });
-          if (markAsPaidOnSuccess) {
-            params.set('paid', '1')
-          }
-          
-          // Se for frete express, adicionar parâmetro para indicar que foi pago
-          if (trackingCode && trackingCode.endsWith('-EXPRESS')) {
-            params.append('express', 'paid');
-          }
-          
-          navigate(`/pagamento/progresso?${params.toString()}`);
+          // Fluxo sem NF: pós-pagamento vai direto para agendamento
+          const qp = new URLSearchParams();
+          if (trackingCode) qp.set('tracking', trackingCode);
+          qp.set('amount', String(amount ?? 0));
+          navigate(`/data-entrega?${qp.toString()}`);
         }
         if (status === "expired" || status === "cancelled" || status === "refunded") {
           setError(

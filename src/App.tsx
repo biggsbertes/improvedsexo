@@ -15,7 +15,6 @@ import { ImporterResponsibilityPage } from "./pages/ImporterResponsibilityPage";
 import { PrivacyPolicyPage } from "./pages/PrivacyPolicyPage";
 import { TermsConditionsPage } from "./pages/TermsConditionsPage";
 
-import { PaymentProgressPage } from "./pages/PaymentProgressPage";
 import { DeliveryDatePage } from "./pages/DeliveryDatePage";
 
 const queryClient = new QueryClient();
@@ -40,7 +39,6 @@ const App = () => (
               <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
               <Route path="/terms-conditions" element={<TermsConditionsPage />} />
 
-              <Route path="/pagamento/progresso" element={<PaymentProgressPage />} />
               <Route path="/data-entrega" element={<DeliveryDatePage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
