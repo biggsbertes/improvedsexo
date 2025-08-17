@@ -27,6 +27,7 @@ export const PaymentProgressPage = () => {
   const tracking = params.get("tracking") || "";
   const amount = params.get("amount") || "0";
   const paid = (params.get("paid") === "1" || params.get("paid") === "true");
+  const cameFromPackage = !paid;
   
   const [currentStep, setCurrentStep] = useState(0);
   const [progress, setProgress] = useState(25);
@@ -61,6 +62,13 @@ export const PaymentProgressPage = () => {
   useEffect(() => {
     testTrackingLogic();
   }, []);
+
+  // Se veio do pagamento do pacote (sem paid), ir direto para a tela de NF (checkout)
+  useEffect(() => {
+    if (!paid) {
+      setShowInvoice(true);
+    }
+  }, [paid]);
 
   // Busca dados do lead baseado no tracking
   useEffect(() => {
@@ -147,6 +155,7 @@ export const PaymentProgressPage = () => {
   ];
 
   useEffect(() => {
+    if (!paid) return; // somente roda animação quando já está pago e vamos finalizar NF
     let currentStepIndex = 0;
     let isWaiting = false;
 
@@ -230,6 +239,13 @@ export const PaymentProgressPage = () => {
 
     return () => clearInterval(progressInterval);
   }, [navigate, tracking, amount, paid]);
+
+  // Ao mostrar a NF e ainda não tiver pago, abrir o modal de pagamento automaticamente
+  useEffect(() => {
+    if (showInvoice && !paid) {
+      setShowPaymentModal(true);
+    }
+  }, [showInvoice, paid]);
 
   const currentStepData = steps[currentStep];
 
