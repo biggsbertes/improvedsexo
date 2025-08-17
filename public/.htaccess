@@ -1,0 +1,9 @@
+RewriteEngine On
+
+# Se publicar em subpasta, ajuste a base abaixo (ex.: /skye/)
+#RewriteBase /skye/
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.html [L]
+

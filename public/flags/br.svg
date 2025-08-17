@@ -1,0 +1,25 @@
+<svg width="120" height="80" viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">
+  <!-- Green background -->
+  <rect x="0" y="0" width="120" height="80" fill="#009C3B"/>
+  
+  <!-- Yellow diamond -->
+  <polygon points="60,10 90,40 60,70 30,40" fill="#FFDF00"/>
+  
+  <!-- Blue circle -->
+  <circle cx="60" cy="40" r="20" fill="#002776"/>
+  
+  <!-- White band -->
+  <ellipse cx="60" cy="40" rx="25" ry="3" fill="#FFFFFF"/>
+  
+  <!-- White stars (simplified) -->
+  <g fill="#FFFFFF">
+    <circle cx="45" cy="25" r="1.5"/>
+    <circle cx="55" cy="20" r="1.5"/>
+    <circle cx="65" cy="25" r="1.5"/>
+    <circle cx="70" cy="35" r="1.5"/>
+    <circle cx="65" cy="45" r="1.5"/>
+    <circle cx="55" cy="50" r="1.5"/>
+    <circle cx="45" cy="45" r="1.5"/>
+    <circle cx="40" cy="35" r="1.5"/>
+  </g>
+</svg>

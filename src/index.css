@@ -1,0 +1,294 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=clash-grotesk@600,700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 98%;
+    --foreground: 215 25% 27%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 215 25% 27%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 25% 27%;
+
+    /* Skypostal blue theme */
+    --primary: 207 90% 54%;
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 207 90% 48%;
+
+    --secondary: 210 16% 93%;
+    --secondary-foreground: 215 25% 27%;
+
+    --muted: 210 16% 96%;
+    --muted-foreground: 215 20% 35%;
+
+    --accent: 207 90% 54%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 215 16% 89%;
+    --input: 215 16% 89%;
+    --ring: 207 90% 54%;
+
+    --radius: 8px;
+    
+    /* Custom design tokens */
+    --skypostal-blue: 207 90% 54%;
+    --skypostal-blue-hover: 207 90% 48%;
+    --text-primary: 215 25% 27%;
+    --text-secondary: 215 13% 65%;
+    --surface-light: 0 0% 100%;
+    --border-light: 0 0% 90%;
+    
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-fast: all 0.15s ease-out;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 215 25% 27%;
+    --foreground: 0 0% 100%;
+
+    --card: 215 25% 27%;
+    --card-foreground: 0 0% 100%;
+
+    --primary: 207 90% 54%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 215 20% 35%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 215 20% 35%;
+    --muted-foreground: 215 13% 75%;
+
+    --accent: 207 90% 54%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 215 20% 35%;
+    --input: 215 20% 35%;
+    --ring: 207 90% 54%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  .font-clash-grotesk-bold {
+    font-family: 'Clash Grotesk', sans-serif;
+    font-weight: 700;
+  }
+}
+
+/* Animação simples para as frases */
+.animate-text-modern {
+  animation: textModern 12s ease-in-out infinite;
+}
+
+@keyframes textModern {
+  0%, 100% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  10%, 90% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animações para transições de idioma */
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.8s ease-in-out;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.8s ease-out;
+  }
+  
+  .animate-slide-up.delay-200 {
+    animation-delay: 0.2s;
+  }
+
+  .animate-slide-up.delay-400 {
+    animation-delay: 0.4s;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.2s ease-out;
+  }
+  
+  .animate-bounce-in {
+    animation: bounceIn 0.4s ease-out;
+  }
+
+  /* Ocultar barras de rolagem mantendo o scroll funcional */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE e Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Animação de pulso suave para o texto de pagamento */
+.animate-pulse-slow {
+  animation: pulseSlow 3s ease-in-out infinite;
+}
+
+@keyframes pulseSlow {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.02);
+  }
+}
+
+/* Animação de lens flare para botões */
+.animate-lens-flare {
+  animation: lensFlare 3s ease-in-out infinite;
+}
+
+@keyframes lensFlare {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Animação de caminhão em movimento */
+.animate-truck-move {
+  animation: truckMove 2s ease-in-out infinite;
+}
+
+@keyframes truckMove {
+  0%, 100% {
+    transform: translateX(0px);
+  }
+  25% {
+    transform: translateX(2px);
+  }
+  75% {
+    transform: translateX(-2px);
+  }
+}
+
+/* Animação de pulso muito suave para o fundo */
+.animate-pulse-very-slow {
+  animation: pulseVerySlow 4s ease-in-out infinite;
+}
+
+@keyframes pulseVerySlow {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.005);
+  }
+}
+
+/* Carrossel de logos */
+.animate-scroll-x {
+  animation: scrollX 20s linear infinite;
+}
+
+@keyframes scrollX {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
